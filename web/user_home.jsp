@@ -2,8 +2,7 @@
     Document   : user_home
     Created on : Jul 11, 2017, 7:20:19 PM
     Author     : sandeep
---%>
-
+--%><%--This is a sample push comment--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
