@@ -283,7 +283,7 @@
                 {
                     if ($('#defaultOpen').hasClass("active"))
                     {
-                        $("#Team").load("./Team_Manage_Process");
+                        $("#Team").load("./Team_Manage_Process?status=''");
                     }
                 }
 
@@ -293,7 +293,7 @@
                     {
                         if ($('#defaultOpen').hasClass("active"))
                         {
-                            $("#Team").load("./Team_Manage_Process");
+                            $("#Team").load("./Team_Manage_Process?status=''");
                         }
                         if ($('#Leads').hasClass("active"))
                         {

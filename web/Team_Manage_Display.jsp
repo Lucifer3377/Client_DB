@@ -18,7 +18,17 @@
         <title>Team-Manage</title>
 
     </head>
-    <body>        
+    <body>       
+        
+        <script>
+            function doOnClick(){
+                if(window.confirm("Are you Sure you want to Approve the Team Member..?"))
+                {
+                    var approved=$("#approved").text();
+                    $(window).load("./Team_Manage_Process",{"status":"Active", "id":approved});
+                }
+            }
+        </script>
         <%
             HttpSession ses = request.getSession(false);
             if (ses.getAttribute("name") == null || ses.getAttribute("name").equals("")) {
@@ -58,13 +68,21 @@
                     String Name = rs.getString(2);
                     long contact = rs.getLong(3);
                     String status = rs.getString(4);
+
             %>
 
             <tr>                 
-                <td><%=Sno%></td>
+                <td id="approved"><%=Sno%></td>
                 <td><%=Name%></td>
                 <td><%=contact%></td>
+
+                <%if (status.equals("Pending")) {
+                   status="Approve";
+%>
+                <td><a href="javascript:doOnClick();"><%=status%></a></td>
+                <%} else {%>
                 <td><%=status%></td>
+                <%}%>
             </tr>
 
             <%}

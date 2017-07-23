@@ -44,12 +44,28 @@ public class Team_Manage_Process extends HttpServlet {
                 request.setAttribute("error_message", "Login First");
                 request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
             } else {
-                Long Team_ID=(long)ses.getAttribute("Team_ID"); 
-                
+
+                String status = request.getParameter("status");
+                if (status == "Active") {
+                    int id = Integer.parseInt(request.getParameter("id"));
+
+                    String upquery = "update Team_Details set Approve_Status='Active' where Sno=?";
+                    PreparedStatement ps = null;
+                    try {
+                        ps = DBHelper.preparedstmtInstance(upquery);
+                        ps.setInt(1, id);
+                        ps.executeUpdate();
+                    } catch (SQLException ex) {
+                        //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                Long Team_ID = (long) ses.getAttribute("Team_ID");
+
                 String sqlQuery = "select Sno, Rep_Name, Contact, Approve_Status from Team_Details where Team_ID=?";
-                
+
                 try {
-                    
+
                     PreparedStatement preparedStatement = DBHelper.preparedstmtInstance(sqlQuery);
                     preparedStatement.setLong(1, Team_ID);
                     ResultSet rs = preparedStatement.executeQuery();
