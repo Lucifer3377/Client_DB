@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.login;
+package com.nvmate.userServlets;
 
 import com.nvmate.Helper.DBHelper;
 import java.io.IOException;
@@ -22,9 +22,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author sandeep
+ * @author Sai_Kameswari
  */
-public class login_verify extends HttpServlet {
+public class Team_Manage_Process extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,25 +39,27 @@ public class login_verify extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String name = request.getParameter("username");
-            String pass = request.getParameter("password");
-            if (name.equals("nvmate") && pass.equals("nvmate")) {                
-                try {
-                    String sqlQuery="select contact from user_accounts where username=?";
-                    PreparedStatement ps = DBHelper.preparedstmtInstance(sqlQuery);
-                    ps.setString(1, name);
-                    ResultSet rs = ps.executeQuery();
-                    rs.next();
-                    HttpSession ses = request.getSession();
-                    ses.setAttribute("name", name);
-                    ses.setAttribute("Team_ID", rs.getLong(1));
-                    request.getRequestDispatcher("user_home.jsp").forward(request, response);
-                } catch (SQLException ex) {
-
-                }
+            HttpSession ses = request.getSession(false);
+            if (ses.getAttribute("name") == null || ses.getAttribute("name").equals("")) {
+                request.setAttribute("error_message", "Login First");
+                request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
             } else {
-                request.setAttribute("error_message", "Incorrect Username or password");
-                request.getRequestDispatcher("Navimate_home.jsp").include(request, response);
+                Long Team_ID=(long)ses.getAttribute("Team_ID"); 
+                
+                String sqlQuery = "select Sno, Rep_Name, Contact, Approve_Status from Team_Details where Team_ID=?";
+                
+                try {
+                    
+                    PreparedStatement preparedStatement = DBHelper.preparedstmtInstance(sqlQuery);
+                    preparedStatement.setLong(1, Team_ID);
+                    ResultSet rs = preparedStatement.executeQuery();
+                    request.setAttribute("resultset", rs);
+                    request.getRequestDispatcher("Team_Manage_Display.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    request.setAttribute("error_message", "Error fetching details from Database");
+                    request.getRequestDispatcher("user_home.jsp").forward(request, response);
+                }
+
             }
         }
     }

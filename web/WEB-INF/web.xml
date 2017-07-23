@@ -15,6 +15,10 @@
         <servlet-name>respond</servlet-name>
         <servlet-class>com.login.respond</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Team_Manage_Process</servlet-name>
+        <servlet-class>com.nvmate.userServlets.Team_Manage_Process</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>login_verify</servlet-name>
         <url-pattern>/login_verify</url-pattern>
@@ -26,6 +30,10 @@
     <servlet-mapping>
         <servlet-name>respond</servlet-name>
         <url-pattern>/respond</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Team_Manage_Process</servlet-name>
+        <url-pattern>/Team_Manage_Process</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

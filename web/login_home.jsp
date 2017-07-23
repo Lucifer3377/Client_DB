@@ -28,7 +28,7 @@
         HttpSession ses = request.getSession(false);
             if (ses.getAttribute("name") == null || ses.getAttribute("name").equals("")) {
                 request.setAttribute("error_message", "Login First");
-                request.getRequestDispatcher("Navimate_home.jsp").include(request, response);
+                request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
             } else {
                 %>
         <div id="mySidenav" class="sidenav-navi">

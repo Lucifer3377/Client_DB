@@ -24,6 +24,14 @@
     </head>
     <body class="page page--index" id="top">
 
+        <%
+            HttpSession ses = request.getSession(false);
+            if (ses.getAttribute("name") == null || ses.getAttribute("name").equals("")) {
+                request.setAttribute("error_message", "Login First");
+                request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
+            } else {
+        %>
+
         <div id="mySidenav" class="sidenav-navi">
             <br>
             <br><br>
@@ -275,7 +283,7 @@
                 {
                     if ($('#defaultOpen').hasClass("active"))
                     {
-                        $("#Team").load("privacy.jsp");
+                        $("#Team").load("./Team_Manage_Process");
                     }
                 }
 
@@ -285,7 +293,7 @@
                     {
                         if ($('#defaultOpen').hasClass("active"))
                         {
-                            $("#Team").load("privacy.jsp");
+                            $("#Team").load("./Team_Manage_Process");
                         }
                         if ($('#Leads').hasClass("active"))
                         {
@@ -343,6 +351,8 @@
             }
 
         </script>
-
+        <%
+            }
+        %>
     </body>
 </html>
