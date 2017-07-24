@@ -87,12 +87,18 @@
                 <td><select name="assign_to">
                         <option selected disabled></option>
                         <%
-                            while (tm_rs.next()) {
+                       if(tm_rs.next())
+                       {
+                           tm_rs.beforeFirst();
+                           while (tm_rs.next()) {
                         %><option><%=tm_rs.getString(0)%></option>
                         <%
                             }
                             tm_rs.beforeFirst();
+                       }
                         %>
+                       
+                            
                     </select></td>
                 <td><a href="javascript:doOnClick();">X</a></td>
 
