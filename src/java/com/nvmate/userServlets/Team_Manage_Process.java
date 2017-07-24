@@ -46,7 +46,10 @@ public class Team_Manage_Process extends HttpServlet {
             } else {
 
                 String status = request.getParameter("status");
-                if (status == "Active") {
+                System.out.print(status);
+                if (status.equalsIgnoreCase("Active")) {
+                   
+                    
                     int id = Integer.parseInt(request.getParameter("id"));
 
                     String upquery = "update Team_Details set Approve_Status='Active' where Sno=?";

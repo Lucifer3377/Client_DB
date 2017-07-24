@@ -21,11 +21,15 @@
     <body>       
         
         <script>
-            function doOnClick(){
+            function doOnClick(sno){
                 if(window.confirm("Are you Sure you want to Approve the Team Member..?"))
                 {
-                    var approved=$("#approved").text();
+                    var approved=sno;
+                    alert("Approving Team Member Having Sno as: "+approved);
                     $(window).load("./Team_Manage_Process",{"status":"Active", "id":approved});
+                   location.reload(true);
+                   // window.load("Team_Manage_Display.jsp");
+                    
                 }
             }
         </script>
@@ -79,7 +83,7 @@
                 <%if (status.equals("Pending")) {
                    status="Approve";
 %>
-                <td><a href="javascript:doOnClick();"><%=status%></a></td>
+                <td><a href="javascript:doOnClick(<%=Sno%>);"><%=status%></a></td>
                 <%} else {%>
                 <td><%=status%></td>
                 <%}%>
