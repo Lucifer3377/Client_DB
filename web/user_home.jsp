@@ -297,7 +297,7 @@
                         }
                         if ($('#Leads').hasClass("active"))
                         {
-                            $("#Team").load("privacy.jsp");
+                            $("#Team").load("./Leads_Manage_Process?status=''");
                         }
                         if ($('#Check').hasClass("active"))
                         {
