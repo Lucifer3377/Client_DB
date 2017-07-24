@@ -19,19 +19,31 @@
 
     </head>
     <body>       
-        
+
         <script>
-            function doOnClick(sno){
-                if(window.confirm("Are you Sure you want to Approve the Team Member..?"))
+            function doOnClick(contact, id) {
+                if (window.confirm("Are you Sure you want to Approve the Team Member..?"))
                 {
-                    var approved=sno;
-                    alert("Approving Team Member Having Sno as: "+approved);
-                    $(window).load("./Team_Manage_Process",{"status":"Active", "id":approved});
-                   location.reload(true);
-                   // window.load("Team_Manage_Display.jsp");
-                    
+                    var approved = contact;
+                    alert("Approving Team Member Having Sno as: " + id);
+                    $(window).load("./Team_Manage_Process", {"status": "Active", "id": approved});
+                    location.reload(true);
+                    // window.load("Team_Manage_Display.jsp");
+
                 }
             }
+
+            function deleteRecord(contact, id) {
+                if (window.confirm("Are you sure you want to delete the Team member having ID: " + id))
+                {
+                    var approved = contact;                   
+                    $(window).load("./Team_Manage_Process", {"status": "Delete", "id": approved});
+                    location.reload(true);
+                    //window.load("Team_Manage_Display.jsp");
+
+                }
+            }
+
         </script>
         <%
             HttpSession ses = request.getSession(false);
@@ -66,30 +78,31 @@
             <div><h3>No records to be displayed...</h3></div>
             <%                } else {
                 rs.beforeFirst();
-
+                int count = 1;
                 while (rs.next()) {
-                    int Sno = rs.getInt(1);
-                    String Name = rs.getString(2);
-                    long contact = rs.getLong(3);
-                    String status = rs.getString(4);
+                    String Name = rs.getString(1);
+                    long contact = rs.getLong(2);
+                    String status = rs.getString(3);
 
             %>
 
             <tr>                 
-                <td id="approved"><%=Sno%></td>
+                <td id="approved"><%=count%></td>
                 <td><%=Name%></td>
                 <td><%=contact%></td>
 
                 <%if (status.equals("Pending")) {
-                   status="Approve";
-%>
-                <td><a href="javascript:doOnClick(<%=Sno%>);"><%=status%></a></td>
-                <%} else {%>
+                        status = "Approve";
+                %>
+                <td><a href="javascript:doOnClick(<%=contact%>, <%=count%>);"><%=status%></a></td>
+                    <%} else {%>
                 <td><%=status%></td>
                 <%}%>
+                <td><a href="javascript:deleteRecord(<%=contact%>, <%=count%>);" style="color:red">X</a></td>
             </tr>
 
-            <%}
+            <%count++;
+                    }
                 }%>
         </table>
 
@@ -101,5 +114,5 @@
             }
 
         %>
-
+    </body>
 </html>
