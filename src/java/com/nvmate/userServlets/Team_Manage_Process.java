@@ -50,13 +50,30 @@ public class Team_Manage_Process extends HttpServlet {
                 if (status.equalsIgnoreCase("Active")) {
                    
                     
-                    int id = Integer.parseInt(request.getParameter("id"));
+                    long id = Long.parseLong(request.getParameter("id"));
 
-                    String upquery = "update Team_Details set Approve_Status='Active' where Sno=?";
+                    String upquery = "update Team_Details set Approve_Status='Active' where contact=?";
                     PreparedStatement ps = null;
                     try {
                         ps = DBHelper.preparedstmtInstance(upquery);
-                        ps.setInt(1, id);
+                        ps.setLong(1, id);
+                        ps.executeUpdate();
+                    } catch (SQLException ex) {
+                        //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                
+                if (status.equalsIgnoreCase("Delete")) {
+                   
+                    
+                    long id = Long.parseLong(request.getParameter("id"));
+
+                    String delquery = "delete from Team_Details where contact=?";
+                    PreparedStatement ps = null;
+                    try {
+                        ps = DBHelper.preparedstmtInstance(delquery);
+                        ps.setLong(1, id);
                         ps.executeUpdate();
                     } catch (SQLException ex) {
                         //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,7 +82,7 @@ public class Team_Manage_Process extends HttpServlet {
 
                 Long Team_ID = (long) ses.getAttribute("Team_ID");
 
-                String sqlQuery = "select Sno, Rep_Name, Contact, Approve_Status from Team_Details where Team_ID=?";
+                String sqlQuery = "select Rep_Name, Contact, Approve_Status from Team_Details where Team_ID=?";
 
                 try {
 
