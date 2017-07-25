@@ -14,14 +14,14 @@
     </head>
     <body>
         <script>
-            function doOnClick(sno) {
-                if (window.confirm("Are you Sure you want to Approve the Team Member..?"))
+
+            function deleteRecord(contact, id) {
+                if (window.confirm("Are you sure you want to delete the Team member having ID: " + id))
                 {
-                    var approved = sno;
-                    alert("Approving Team Member Having Sno as: " + approved);
-                    $(window).load("./Team_Manage_Process", {"status": "Active", "id": approved});
+                    var approved = contact;
+                    $(window).load("./Leads_Manage_process", {"status": "Delete", "id": approved});
                     location.reload(true);
-                    // window.load("Team_Manage_Display.jsp");
+                    //window.load("Team_Manage_Display.jsp");
 
                 }
             }
@@ -55,14 +55,13 @@
             <th>
                 Name
             </th>
-
+            <th>
+                Contact Name
+            </th>
             <th>
                 Contact No.
             </th>
 
-            <th>
-                Contact Phone No
-            </th>
             <th>
                 Assigned To
             </th>
@@ -70,27 +69,31 @@
                 Check In Template
             </th>
             <th></th>
+            <th></th>
                 <%   lm_rs.beforeFirst();
                     int count = 1;
                     while (lm_rs.next()) {
-
+                        System.out.print(lm_rs.getString(1));
                         String Lead_Name = lm_rs.getString(1);
                         String Lead_Source = lm_rs.getString(2);
                         long Source_Contact = lm_rs.getLong(3);
-
+                        int sno = lm_rs.getInt(4);
+                        String Lead_assigned = lm_rs.getString(5);
+                        String Lead_Template = lm_rs.getString(6);
                 %>
 
             <tr>                 
                 <td id="approved"><%=count%></td>
-                <td><%=Lead_Name%></td>
-                <td><%=Lead_Source%></td>
+                <td><input type="text" id="<%=Lead_Name%>" value="<%=Lead_Name%>" readonly style="background: transparent"></td>
+                <td><input type="text" id="<%=Lead_Source%>" value="<%=Lead_Source%>" readonly style="background: transparent"></td>
+                <td><input type="text" id="<%=Source_Contact%>" value="<%=Source_Contact%>" readonly style="background: transparent"></td>
                 <td><select name="assign_to">
-                        <option selected disabled></option>
+                        <option selected><%=Lead_assigned%></option>
                         <%
                             if (tm_rs.next()) {
                                 tm_rs.beforeFirst();
                                 while (tm_rs.next()) {
-                        %><option><%=tm_rs.getString(0)%></option>
+                        %><option><%=tm_rs.getString(1)%></option>
                         <%
                                 }
                                 tm_rs.beforeFirst();
@@ -99,8 +102,31 @@
 
 
                     </select></td>
-                <td><a href="javascript:doOnClick();">X</a></td>
 
+                <td><select>
+                        <option selected><%=Lead_Template%></option>
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                    </select></td>
+                <td><button style="color:red" id="<%=count%>">edit</button></td>
+                <td align="right"><a href="javascript:deleteRecord(<%=sno%>, <%=count%>);" style="color:red">X</a></td>
+
+               <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $("#<%=count%>").click(
+                        function (e) {
+                            $("#<%=Lead_Name%>").prop('readonly', false);
+                            $("#<%=Lead_Name%>").css("background","white");
+                            $("#<%=Lead_Source%>").prop('readonly', false);
+                            $("#<%=Lead_Source%>").css("background","white");
+                            $("#<%=Source_Contact%>").prop('readonly', false);
+                            $("#<%=Source_Contact%>").css("background","white");
+                        });
+            });
+        </script>
             </tr>
 
             <%
@@ -108,6 +134,7 @@
                     }
                 }%>
         </table>
+        <div align="center"><button>Save</button></div>
 
         <%
             } else {
@@ -117,5 +144,6 @@
             }
 
         %>
+        
     </body>
 </html>
