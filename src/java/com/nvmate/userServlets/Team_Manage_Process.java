@@ -45,40 +45,39 @@ public class Team_Manage_Process extends HttpServlet {
                 request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
             } else {
 
-                String status = request.getParameter("status");                
-                if (status.equalsIgnoreCase("Active")) {
-                   
-                    
-                    long id = Long.parseLong(request.getParameter("id"));
+                String status = request.getParameter("status");
 
-                    String upquery = "update Team_Details set Approve_Status='Active' where contact=?";
-                    PreparedStatement ps = null;
-                    try {
-                        ps = DBHelper.preparedstmtInstance(upquery);
-                        ps.setLong(1, id);
-                        ps.executeUpdate();
-                    } catch (SQLException ex) {
-                        //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
+                switch (status) {
+                    case "Active": {
+                        long id = Long.parseLong(request.getParameter("id"));
+
+                        String upquery = "update Team_Details set Approve_Status='Active' where contact=?";
+                        PreparedStatement ps = null;
+                        try {
+                            ps = DBHelper.preparedstmtInstance(upquery);
+                            ps.setLong(1, id);
+                            ps.executeUpdate();
+                        } catch (SQLException ex) {
+                            //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        break;
+                    }
+
+                    case "Delete": {
+                        long id = Long.parseLong(request.getParameter("id"));
+
+                        String delquery = "delete from Team_Details where contact=?";
+                        PreparedStatement ps = null;
+                        try {
+                            ps = DBHelper.preparedstmtInstance(delquery);
+                            ps.setLong(1, id);
+                            ps.executeUpdate();
+                        } catch (SQLException ex) {
+                            //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        break;
                     }
                 }
-                
-                
-                if (status.equalsIgnoreCase("Delete")) {
-                   
-                    
-                    long id = Long.parseLong(request.getParameter("id"));
-
-                    String delquery = "delete from Team_Details where contact=?";
-                    PreparedStatement ps = null;
-                    try {
-                        ps = DBHelper.preparedstmtInstance(delquery);
-                        ps.setLong(1, id);
-                        ps.executeUpdate();
-                    } catch (SQLException ex) {
-                        //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
                 Long Team_ID = (long) ses.getAttribute("Team_ID");
 
                 String sqlQuery = "select Rep_Name, Contact, Approve_Status from Team_Details where Team_ID=?";
