@@ -77,6 +77,9 @@ public class Team_Manage_Process extends HttpServlet {
                         }
                         break;
                     }
+
+                    default:
+                        break;
                 }
                 Long Team_ID = (long) ses.getAttribute("Team_ID");
 
