@@ -84,9 +84,9 @@
 
             <tr>                 
                 <td id="approved"><%=count%></td>
-                <td><input type="text" id="<%=Lead_Name%>" value="<%=Lead_Name%>" readonly style="background: transparent"></td>
-                <td><input type="text" id="<%=Lead_Source%>" value="<%=Lead_Source%>" readonly style="background: transparent"></td>
-                <td><input type="text" id="<%=Source_Contact%>" value="<%=Source_Contact%>" readonly style="background: transparent"></td>
+                <td><input type="text" id="<%=Lead_Name%>_<%=count%>" value="<%=Lead_Name%>" readonly style="background: transparent"></td>
+                <td><input type="text" id="<%=Lead_Source%>_<%=count%>" value="<%=Lead_Source%>" readonly style="background: transparent"></td>
+                <td><input type="text" id="<%=Source_Contact%>_<%=count%>" value="<%=Source_Contact%>" readonly style="background: transparent"></td>
                 <td><select name="assign_to">
                         <option selected><%=Lead_assigned%></option>
                         <%
@@ -118,12 +118,12 @@
 
                 $("#<%=count%>").click(
                         function (e) {
-                            $("#<%=Lead_Name%>").prop('readonly', false);
-                            $("#<%=Lead_Name%>").css("background","white");
-                            $("#<%=Lead_Source%>").prop('readonly', false);
-                            $("#<%=Lead_Source%>").css("background","white");
-                            $("#<%=Source_Contact%>").prop('readonly', false);
-                            $("#<%=Source_Contact%>").css("background","white");
+                            $("#<%=Lead_Name%>_<%=count%>").prop('readonly', false);
+                            $("#<%=Lead_Name%>_<%=count%>").css("background","white");
+                            $("#<%=Lead_Source%>_<%=count%>").prop('readonly', false);
+                            $("#<%=Lead_Source%>_<%=count%>").css("background","white");
+                            $("#<%=Source_Contact%>_<%=count%>").prop('readonly', false);
+                            $("#<%=Source_Contact%>_<%=count%>").css("background","white");
                         });
             });
         </script>
