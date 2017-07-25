@@ -297,7 +297,7 @@
                         }
                         if ($('#Leads').hasClass("active"))
                         {
-                            $("#Team").load("./Leads_Manage_Process?status=''");
+                            $("#Team").load("./Leads_Manage_process?status=''");
                         }
                         if ($('#Check').hasClass("active"))
                         {

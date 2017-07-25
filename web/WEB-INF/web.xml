@@ -21,7 +21,7 @@
     </servlet>
     <servlet>
         <servlet-name>Leads_Manage_process</servlet-name>
-        <servlet-class>com.nvmate.userServlets.Leads_Manage_Process</servlet-class>
+        <servlet-class>com.nvmate.userServlets.Leads_Manage_process</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>login_verify</servlet-name>

@@ -31,7 +31,7 @@
             if (ses.getAttribute("name") == null || ses.getAttribute("name").equals("")) {
                 request.setAttribute("error_message", "Login First");
                 request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
-            } else if (null != request.getAttribute("resultset")) {
+            } else if (null != request.getAttribute("lm_resultset")) {
 
                 ResultSet tm_rs = (ResultSet) request.getAttribute("tm_resultset");
                 ResultSet lm_rs = (ResultSet) request.getAttribute("lm_resultset");
@@ -87,18 +87,17 @@
                 <td><select name="assign_to">
                         <option selected disabled></option>
                         <%
-                       if(tm_rs.next())
-                       {
-                           tm_rs.beforeFirst();
-                           while (tm_rs.next()) {
+                            if (tm_rs.next()) {
+                                tm_rs.beforeFirst();
+                                while (tm_rs.next()) {
                         %><option><%=tm_rs.getString(0)%></option>
                         <%
+                                }
+                                tm_rs.beforeFirst();
                             }
-                            tm_rs.beforeFirst();
-                       }
                         %>
-                       
-                            
+
+
                     </select></td>
                 <td><a href="javascript:doOnClick();">X</a></td>
 

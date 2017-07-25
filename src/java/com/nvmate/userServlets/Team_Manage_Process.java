@@ -45,8 +45,7 @@ public class Team_Manage_Process extends HttpServlet {
                 request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
             } else {
 
-                String status = request.getParameter("status");
-                System.out.print(status);
+                String status = request.getParameter("status");                
                 if (status.equalsIgnoreCase("Active")) {
                    
                     
