@@ -46,24 +46,22 @@ public class Leads_Manage_process extends HttpServlet {
                 Long Team_ID = (long) ses.getAttribute("Team_ID");
                 String leadQuery = "select Lead_Name, Lead_Source,Source_Contact,Sno,Lead_assigned,Lead_Template from Lead_Details where Lead_ID=?";
                 String teamQuery = "select Rep_Name from Team_Details where Team_ID=?";
-                switch(status)
-                {
-                    case "Delete":
-                    {
+                switch (status) {
+                    case "Delete": {
                         int id = Integer.parseInt(request.getParameter("id"));
 
-                    String delquery = "delete from Lead_Details where Sno=?";
-                    PreparedStatement ps = null;
-                    try {
-                        ps = DBHelper.preparedstmtInstance(delquery);
-                        ps.setInt(1, id);
-                        ps.executeUpdate();
-                    } catch (SQLException ex) {
-                        //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                        String delquery = "delete from Lead_Details where Sno=?";
+                        PreparedStatement ps = null;
+                        try {
+                            ps = DBHelper.preparedstmtInstance(delquery);
+                            ps.setInt(1, id);
+                            ps.executeUpdate();
+                        } catch (SQLException ex) {
+                            //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     break;
-                        
+
                 }
                 try {
 
@@ -75,7 +73,6 @@ public class Leads_Manage_process extends HttpServlet {
                     ResultSet lead_rs = lead_statement.executeQuery();
                     request.setAttribute("tm_resultset", team_rs);
                     request.setAttribute("lm_resultset", lead_rs);
-                    
 
                     request.getRequestDispatcher("Leads_Manage_Display.jsp").forward(request, response);
                 } catch (SQLException ex) {
