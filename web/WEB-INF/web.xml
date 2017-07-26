@@ -23,6 +23,10 @@
         <servlet-name>Leads_Manage_process</servlet-name>
         <servlet-class>com.nvmate.userServlets.Leads_Manage_process</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>table_data_handler</servlet-name>
+        <servlet-class>com.ajax.table_data_handler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>login_verify</servlet-name>
         <url-pattern>/login_verify</url-pattern>
@@ -42,6 +46,10 @@
     <servlet-mapping>
         <servlet-name>Leads_Manage_process</servlet-name>
         <url-pattern>/Leads_Manage_process</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>table_data_handler</servlet-name>
+        <url-pattern>/table_data_handler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

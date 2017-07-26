@@ -59,6 +59,7 @@
 
             ul:after { clear: both; }
         </style>
+        <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
     </head>
     <body>
         <ul class="main-navigation">
@@ -96,5 +97,35 @@
             </li>
             <li><a href="#">About Us</a></li>
         </ul>
+        <input type="text" id="nobita" value="Dragon">
+        <input type="text" id="doraemon" value="Doraemon">
+        <div id="lala"></div>
+
+        <script type="text/javascript">
+            var request;
+
+            $(document).ready(function ()
+            {
+                $("#nobita,#doraemon").keyup(function ()
+                {
+                    var id1=this.id;
+                    $.ajax({
+                        url: "table_data_handler",
+                        data: {sno: $('#'+id1).val(), id: this.id},
+                        //"sendo=" + $("#id").val(),
+                        type: "post",
+                        success: function (msg)
+                        {
+                            $("#lala").html(msg);
+
+                        }
+                    });
+
+                });
+
+
+            });
+
+        </script>
     </body>
 </html>
