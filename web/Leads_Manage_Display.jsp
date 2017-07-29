@@ -84,10 +84,10 @@
 
             <tr>                 
                 <td id="approved"><%=count%></td>
-                <td><input type="text" class="doit" id="Name_<%=Lead_Name%>_<%=sno%>" value="<%=Lead_Name%>" readonly="readonly" style="background: transparent"></td>
-                <td><input type="text" id="ContactName_<%=Lead_Source%>_<%=sno%>" value="<%=Lead_Source%>" readonly="readonly" style="background: transparent"></td>
-                <td><input type="text" id="SourceContact_<%=Source_Contact%>_<%=sno%>" value="<%=Source_Contact%>" readonly="readonly" style="background: transparent"></td>
-                <td><select name="assign_to">
+                <td><input type="text" class="doit" id="Lead_Name__<%=Lead_Name%>__<%=sno%>" value="<%=Lead_Name%>" readonly="readonly" style="background: transparent"></td>
+                <td><input type="text" id="Lead_Source__<%=Lead_Source%>__<%=sno%>" value="<%=Lead_Source%>" readonly="readonly" style="background: transparent"></td>
+                <td><input type="text" id="Source_Contact__<%=Source_Contact%>__<%=sno%>" value="<%=Source_Contact%>" readonly="readonly" style="background: transparent"></td>
+                <td><select id="Lead_Assigned__<%=Source_Contact%>__<%=sno%>" name="assign_to">
                         <option selected><%=Lead_assigned%></option>
                         <%
                             if (tm_rs.next()) {
@@ -103,7 +103,7 @@
 
                     </select></td>
 
-                <td><select>
+                <td><select id="Lead_Teamplate__<%=Source_Contact%>__<%=sno%>">
                         <option selected><%=Lead_Template%></option>
                         <option>A</option>
                         <option>B</option>
@@ -117,7 +117,23 @@
 
                 $(document).ready(function ()
                 {
-                    $("#Name_<%=Lead_Name%>_<%=sno%>,#ContactName_<%=Lead_Source%>_<%=sno%>,#SourceContact_<%=Source_Contact%>_<%=sno%>").keyup(function ()
+                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>,#Lead_Source__<%=Lead_Source%>__<%=sno%>,#Source_Contact__<%=Source_Contact%>__<%=sno%>").keyup(function ()
+                    {
+                        $.ajax({
+                            url: "table_data_handler",
+                            data: {value:$('#'+this.id).val(),id:this.id,},
+                                    //"sendo=" + $("#id").val(),
+                            type: "post",
+                            success: function (msg)
+                            {
+                                $("#lala").html(msg);
+
+                            }
+                        });
+
+                    });
+                    
+                    $("#Lead_Assigned__<%=Source_Contact%>__<%=sno%>,#Lead_Teamplate__<%=Source_Contact%>__<%=sno%>").on("change",function ()
                     {
                         $.ajax({
                             url: "table_data_handler",
@@ -140,29 +156,29 @@
 
                     $("#<%=count%>").click(
                             function (e) {
-                                if ($("#Name_<%=Lead_Name%>_<%=sno%>").is('[readonly="readonly"]')) {
-                                    $("#Name_<%=Lead_Name%>_<%=sno%>").attr('readonly', false);
-                                    $("#Name_<%=Lead_Name%>_<%=sno%>").css("background", "white");
+                                if ($("#Lead_Name__<%=Lead_Name%>__<%=sno%>").is('[readonly="readonly"]')) {
+                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").attr('readonly', false);
+                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").css("background", "white");
                                 }
                                 else {
-                                    $("#Name_<%=Lead_Name%>_<%=sno%>").attr('readonly', true);
-                                    $("#Name_<%=Lead_Name%>_<%=sno%>").css("background", "transparent");
+                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").attr('readonly', true);
+                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").css("background", "transparent");
                                 }
-                                if ($("#ContactName_<%=Lead_Source%>_<%=sno%>").is('[readonly="readonly"]')) {
-                                    $("#ContactName_<%=Lead_Source%>_<%=sno%>").attr('readonly', false);
-                                    $("#ContactName_<%=Lead_Source%>_<%=sno%>").css("background", "white");
-                                }
-                                else {
-                                    $("#ContactName_<%=Lead_Source%>_<%=sno%>").attr('readonly', true);
-                                    $("#ContactName_<%=Lead_Source%>_<%=sno%>").css("background", "transparent");
-                                }
-                                if ($("#SourceContact_<%=Source_Contact%>_<%=sno%>").is('[readonly="readonly"]')) {
-                                    $("#SourceContact_<%=Source_Contact%>_<%=sno%>").attr('readonly', false);
-                                    $("#SourceContact_<%=Source_Contact%>_<%=sno%>").css("background", "white");
+                                if ($("#Lead_Source__<%=Lead_Source%>__<%=sno%>").is('[readonly="readonly"]')) {
+                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").attr('readonly', false);
+                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").css("background", "white");
                                 }
                                 else {
-                                    $("#SourceContact_<%=Source_Contact%>_<%=sno%>").attr('readonly', true);
-                                    $("#SourceContact_<%=Source_Contact%>_<%=sno%>").css("background", "transparent");
+                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").attr('readonly', true);
+                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").css("background", "transparent");
+                                }
+                                if ($("#Source_Contact__<%=Source_Contact%>__<%=sno%>").is('[readonly="readonly"]')) {
+                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").attr('readonly', false);
+                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").css("background", "white");
+                                }
+                                else {
+                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").attr('readonly', true);
+                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").css("background", "transparent");
                                 }
                             });
                 });
