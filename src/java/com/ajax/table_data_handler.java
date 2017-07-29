@@ -5,6 +5,7 @@
  */
 package com.ajax;
 
+import com.nvmate.Helper.CollectionCompare;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,24 +34,22 @@ public class table_data_handler extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String id = request.getParameter("id");
+            String cell_value = request.getParameter("value");
             String[] column_id_sno = id.split("_");
-            String column_name,cell_id="";
-            int sno=0;
-            if(column_id_sno.length>2)
-            {
-                column_name=column_id_sno[0];
-                cell_id=column_id_sno[1];
-                sno=Integer.parseInt(column_id_sno[2]);
+            String column_name, cell_id = "";
+            int sno = 0;
+            if (column_id_sno.length > 2) {
+                column_name = column_id_sno[0];
+                cell_id = column_id_sno[1];
+                sno = Integer.parseInt(column_id_sno[2]);
+                
+                CollectionCompare.addToMap(sno, column_name, cell_value);
             }
-            
 
-            if (true) {
+            out.print("<option disabled selected> </option>");
 
-                out.print("<option disabled selected> </option>");
+            out.print("<strong>p");
 
-                out.print("<strong>p");
-
-            }
         } catch (Exception e) {
 
         }
