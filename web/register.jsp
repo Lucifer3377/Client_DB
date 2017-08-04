@@ -112,7 +112,7 @@
             </header>
         </div>
         <div id="displaybox" onclick='outer_off()' style="display:none"></div>
-       
+
         <form  id="mySidenav" class="sidenav" action="login_verify" method="post">
             <div class="wrap">
                 <div class="avatar">
@@ -167,19 +167,19 @@
                                     <div class="form">                                        
                                         <input type="text" name="email" id="email" value="email address" />
                                         <label for="email">Your email address. We send important administration notices to this address. </label>  
-                                        
+
                                         <input type="text" name="team_name" id="team_name" placeholder="Enter unique Team name" />
                                         <label for="team_name">The team name should be Unique to your Team.</label>
-                                        
+
                                         <input type="text" pattern="[0-9]+" name="mobile" id="mobile" placeholder="XX-XX-XX-XX-XX" />
                                         <label for="mobile">Please provide a valid Mobile number for further communication.</label>                                        
-                                       
+
                                     </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
                                     <input class="submit" type="submit" name="submit_second" id="submit_second" value="" />
                                 </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
 
 
-                              
+
 
 
                                 <!-- #fourth_step -->
@@ -297,6 +297,28 @@
                                     </div>
                                 </footer>
                                 <script>
+                                    $(document).ready(function ()
+                                    {
+                                        $("#mobile ,team_name").keyup(function ()
+                                        {
+                                            $.ajax({
+                                                url: "table_data_handler",
+                                                data: {value: $('#' + this.id).val(), id: this.id, },
+                                                //"sendo=" + $("#id").val(),
+                                                type: "post",
+                                                success: function (msg)
+                                                {
+                                                    $("#lala").html(msg);
+
+                                                }
+                                            });
+
+                                        });
+
+
+
+
+                                    });
                                     function openNav() {
                                         var thediv = document.getElementById('displaybox');
                                         if (thediv.style.display === "none") {
