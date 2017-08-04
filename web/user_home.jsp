@@ -297,26 +297,26 @@
                         }
                         if ($('#Leads').hasClass("active"))
                         {
-                            $("#Team").load("./Leads_Manage_process?status=''");
+                            $("#Team").load("./Leads_Manage_Display.jsp");
                         }
                         if ($('#Check').hasClass("active"))
                         {
-                            $("#Team").load("testing.jsp");
+                            $("#Team").load("#");
                         }
                     }
                     if ($("#Reports").hasClass("active"))
                     {
                         if ($('#defaultOpen').hasClass("active"))
                         {
-                            $("#Team").load("register.jsp");
+                            $("#Team").load("#");
                         }
                         if ($('#Leads').hasClass("active"))
                         {
-                            $("#Team").load("feature.jsp");
+                            $("#Team").load("#);
                         }
                         if ($('#Check').hasClass("active"))
                         {
-                            $("#Team").load("privacy.jsp");
+                            $("#Team").load("#");
                         }
                     }
                 });

@@ -5,12 +5,15 @@
  */
 package com.nvmate.userServlets;
 
-import com.nvmate.Helper.DBHelper;
+import com.navimate.biz.db.BizDbHelper;
+import com.navimate.biz.objects.AppUserObject;
+import com.navimate.biz.objects.LeadObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,41 +46,32 @@ public class Leads_Manage_process extends HttpServlet {
             } else {
 
                 String status = request.getParameter("status");
-                Long Team_ID = (long) ses.getAttribute("Team_ID");
-                String leadQuery = "select Lead_Name, Lead_Source,Source_Contact,Sno,Lead_assigned,Lead_Template from Lead_Details where Lead_ID=?";
-                String teamQuery = "select Rep_Name from Team_Details where Team_ID=?";
+                int Team_ID = (Integer) ses.getAttribute("Team_ID");
+                //ArrayList<LeadObject> lead = null;
+
+                //lead = BizDbHelper.leadsTable.GetAll();
                 switch (status) {
                     case "Delete": {
                         int id = Integer.parseInt(request.getParameter("id"));
 
-                        String delquery = "delete from Lead_Details where Sno=?";
-                        PreparedStatement ps = null;
-                        try {
-                            ps = DBHelper.preparedstmtInstance(delquery);
-                            ps.setInt(1, id);
-                            ps.executeUpdate();
-                        } catch (SQLException ex) {
-                            //Logger.getLogger(Team_Manage_Process.class.getName()).log(Level.SEVERE, null, ex);
+                        ArrayList<LeadObject> lead = BizDbHelper.leadsTable.GetAll();
+                        LeadObject lead_object = BizDbHelper.leadsTable.GetLeadById(id);
+                        for (LeadObject user : lead) {
+                            if (user.id == id) {
+                                lead.remove(user);
+                                // BizDbHelper.leadsTable.Remove(id);
+
+                                break;
+                            }
                         }
                     }
-                    break;
+                    case "Save": {
+                        ArrayList<LeadObject> lead_object = BizDbHelper.leadsTable.GetAll();
+                        for (LeadObject obj : lead_object) {
+                                BizDbHelper.leadsTable.Update(obj);
+                        }
+                    }
 
-                }
-                try {
-
-                    PreparedStatement team_statement = DBHelper.preparedstmtInstance(teamQuery);
-                    PreparedStatement lead_statement = DBHelper.preparedstmtInstance(leadQuery);
-                    team_statement.setLong(1, Team_ID);
-                    lead_statement.setLong(1, Team_ID);
-                    ResultSet team_rs = team_statement.executeQuery();
-                    ResultSet lead_rs = lead_statement.executeQuery();
-                    request.setAttribute("tm_resultset", team_rs);
-                    request.setAttribute("lm_resultset", lead_rs);
-
-                    request.getRequestDispatcher("Leads_Manage_Display.jsp").forward(request, response);
-                } catch (SQLException ex) {
-                    request.setAttribute("error_message", "Error fetching details from Database");
-                    request.getRequestDispatcher("user_home.jsp").forward(request, response);
                 }
 
             }

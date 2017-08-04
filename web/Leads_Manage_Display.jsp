@@ -4,6 +4,12 @@
     Author     : sandeep
 --%>
 
+<%@page import="com.navimate.biz.objects.DashboardUserObject"%>
+<%@page import="com.navimate.biz.objects.AppUserObject"%>
+<%@page import="com.navimate.biz.db.BizDbHelper"%>
+<%@page import="com.navimate.biz.objects.LeadObject"%>
+<%@page import="com.navimate.biz.objects.LeadObject"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,19 +37,29 @@
             if (ses.getAttribute("name") == null || ses.getAttribute("name").equals("")) {
                 request.setAttribute("error_message", "Login First");
                 request.getRequestDispatcher("Navimate_home.jsp").forward(request, response);
-            } else if (null != request.getAttribute("lm_resultset")) {
+            } else {
 
-                ResultSet tm_rs = (ResultSet) request.getAttribute("tm_resultset");
-                ResultSet lm_rs = (ResultSet) request.getAttribute("lm_resultset");
+                String status = request.getParameter("status");
+                int Team_ID = (Integer) ses.getAttribute("Team_ID");
+                switch (status) {
+                    case "Delete": {
+
+                    }
+                    break;
+                }
+
+                ArrayList<AppUserObject> assign_to = null;
+                LeadObject lead_object = null;
+                String app_user_name = "";
+                DashboardUserObject users = BizDbHelper.dashboardUsersTable.GetUserById(Team_ID);
+                ArrayList<Integer> leads_from_dash = users.leads;
+                if (!leads_from_dash.isEmpty()) {
 
         %>
+
         <br><br><br><br><br>
-
-
-        <%                if (!lm_rs.next()) {
-
-        %>
         <div><h3>No records to be displayed...</h3></div>
+
         <%                } else {
 
         %>
@@ -53,58 +69,64 @@
             </th>
 
             <th>
-                Name
+                companyName
             </th>
             <th>
-                Contact Name
+                contactName
             </th>
             <th>
-                Contact No.
+                contactPhone
             </th>
-
+            <th>lead_latitude</th>
+            <th>lead_longitude</th>
             <th>
-                Assigned To
+                assignedToId
             </th>
             <th>
-                Check In Template
+                visitFormId
             </th>
             <th></th>
             <th></th>
-                <%   lm_rs.beforeFirst();
-                    int count = 1;
-                    while (lm_rs.next()) {
+                <%         int count = 1;
+                    for (int id : leads_from_dash) {
+                        lead_object = BizDbHelper.leadsTable.GetLeadById(id);
 
-                        String Lead_Name = lm_rs.getString(1);
-                        String Lead_Source = lm_rs.getString(2);
-                        long Source_Contact = lm_rs.getLong(3);
-                        int sno = lm_rs.getInt(4);
-                        String Lead_assigned = lm_rs.getString(5);
-                        String Lead_Template = lm_rs.getString(6);
+
                 %>
+
+            <%                String companyName = lead_object.companyName;
+                String contactName = lead_object.contactName;
+                String contactPhone = lead_object.contactPhone;
+                int sno = lead_object.id;
+                //String Lead_assigned = lm_rs.getString(5);
+                //String Lead_Template = lm_rs.getString(6);
+%>
 
             <tr>                 
                 <td id="approved"><%=count%></td>
-                <td><input type="text" class="doit" id="Lead_Name__<%=Lead_Name%>__<%=sno%>" value="<%=Lead_Name%>" readonly="readonly" style="background: transparent"></td>
-                <td><input type="text" id="Lead_Source__<%=Lead_Source%>__<%=sno%>" value="<%=Lead_Source%>" readonly="readonly" style="background: transparent"></td>
-                <td><input type="text" id="Source_Contact__<%=Source_Contact%>__<%=sno%>" value="<%=Source_Contact%>" readonly="readonly" style="background: transparent"></td>
-                <td><select id="Lead_Assigned__<%=Source_Contact%>__<%=sno%>" name="assign_to">
-                        <option selected><%=Lead_assigned%></option>
+                <td><input type="text" class="doit" id="companyName__<%=companyName%>__<%=sno%>" value="<%=companyName%>" readonly="readonly" style="background: transparent"></td>
+                <td><input type="text" id="contactName__<%=contactName%>__<%=sno%>" value="<%=contactName%>" readonly="readonly" style="background: transparent"></td>
+                <td><input type="text" id="contactPhone__<%=contactPhone%>__<%=sno%>" value="<%=contactPhone%>" readonly="readonly" style="background: transparent"></td>
+                <td><select id="assignedToId__<%=contactPhone%>__<%=sno%>" name="assign_to">
+
                         <%
-                            if (tm_rs.next()) {
-                                tm_rs.beforeFirst();
-                                while (tm_rs.next()) {
-                        %><option><%=tm_rs.getString(1)%></option>
+                            assign_to = BizDbHelper.appUsersTable.GetTeamMembers(id);
+                        %>
+                        <option selected></option>
                         <%
-                                }
-                                tm_rs.beforeFirst();
-                            }
+                            for (AppUserObject app : assign_to) {
+                                app_user_name = app.name;
+
+                        %>
+                        <option><%=app_user_name%></option>
+                        <%                                }
                         %>
 
 
                     </select></td>
 
-                <td><select id="Lead_Teamplate__<%=Source_Contact%>__<%=sno%>">
-                        <option selected><%=Lead_Template%></option>
+                <td><select id="visitFormId__<%=contactPhone%>__<%=sno%>">
+                        <option selected><%=%></option>
                         <option>A</option>
                         <option>B</option>
                         <option>C</option>
@@ -117,12 +139,12 @@
 
                 $(document).ready(function ()
                 {
-                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>,#Lead_Source__<%=Lead_Source%>__<%=sno%>,#Source_Contact__<%=Source_Contact%>__<%=sno%>").keyup(function ()
+                    $("#companyName__<%=companyName%>__<%=sno%>,#contactName__<%=contactName%>__<%=sno%>,#contactPhone__<%=contactPhone%>__<%=sno%>").keyup(function ()
                     {
                         $.ajax({
                             url: "table_data_handler",
-                            data: {value:$('#'+this.id).val(),id:this.id,},
-                                    //"sendo=" + $("#id").val(),
+                            data: {value: $('#' + this.id).val(), id: this.id, },
+                            //"sendo=" + $("#id").val(),
                             type: "post",
                             success: function (msg)
                             {
@@ -132,13 +154,13 @@
                         });
 
                     });
-                    
-                    $("#Lead_Assigned__<%=Source_Contact%>__<%=sno%>,#Lead_Teamplate__<%=Source_Contact%>__<%=sno%>").on("change",function ()
+
+                    $("#assignedToId__<%=contactPhone%>__<%=sno%>,#visitFormId__<%=contactPhone%>__<%=sno%>").on("change", function ()
                     {
                         $.ajax({
                             url: "table_data_handler",
-                            data: {value:$('#'+this.id).val(),id:this.id,},
-                                    //"sendo=" + $("#id").val(),
+                            data: {value: $('#' + this.id).val(), id: this.id, },
+                            //"sendo=" + $("#id").val(),
                             type: "post",
                             success: function (msg)
                             {
@@ -156,29 +178,29 @@
 
                     $("#<%=count%>").click(
                             function (e) {
-                                if ($("#Lead_Name__<%=Lead_Name%>__<%=sno%>").is('[readonly="readonly"]')) {
-                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").attr('readonly', false);
-                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").css("background", "white");
+                                if ($("#companyName__<%=companyName%>__<%=sno%>").is('[readonly="readonly"]')) {
+                                    $("#companyName__<%=companyName%>__<%=sno%>").attr('readonly', false);
+                                    $("#companyName__<%=companyName%>__<%=sno%>").css("background", "white");
                                 }
                                 else {
-                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").attr('readonly', true);
-                                    $("#Lead_Name__<%=Lead_Name%>__<%=sno%>").css("background", "transparent");
+                                    $("#companyName__<%=companyName%>__<%=sno%>").attr('readonly', true);
+                                    $("#companyName__<%=companyName%>__<%=sno%>").css("background", "transparent");
                                 }
-                                if ($("#Lead_Source__<%=Lead_Source%>__<%=sno%>").is('[readonly="readonly"]')) {
-                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").attr('readonly', false);
-                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").css("background", "white");
-                                }
-                                else {
-                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").attr('readonly', true);
-                                    $("#Lead_Source__<%=Lead_Source%>__<%=sno%>").css("background", "transparent");
-                                }
-                                if ($("#Source_Contact__<%=Source_Contact%>__<%=sno%>").is('[readonly="readonly"]')) {
-                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").attr('readonly', false);
-                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").css("background", "white");
+                                if ($("#contactName__<%=contactName%>__<%=sno%>").is('[readonly="readonly"]')) {
+                                    $("#contactName__<%=contactName%>__<%=sno%>").attr('readonly', false);
+                                    $("#contactName__<%=contactName%>__<%=sno%>").css("background", "white");
                                 }
                                 else {
-                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").attr('readonly', true);
-                                    $("#Source_Contact__<%=Source_Contact%>__<%=sno%>").css("background", "transparent");
+                                    $("#contactName__<%=contactName%>__<%=sno%>").attr('readonly', true);
+                                    $("#contactName__<%=contactName%>__<%=sno%>").css("background", "transparent");
+                                }
+                                if ($("#contactPhone__<%=contactPhone%>__<%=sno%>").is('[readonly="readonly"]')) {
+                                    $("#contactPhone__<%=contactPhone%>__<%=sno%>").attr('readonly', false);
+                                    $("#contactPhone__<%=contactPhone%>__<%=sno%>").css("background", "white");
+                                }
+                                else {
+                                    $("#contactPhone__<%=contactPhone%>__<%=sno%>").attr('readonly', true);
+                                    $("#contactPhone__<%=contactPhone%>__<%=sno%>").css("background", "transparent");
                                 }
                             });
                 });
@@ -186,18 +208,16 @@
         </tr>
 
         <%
-                    count++;
+
                 }
+
             }%>
     </table>
-    <div align="center"><button>Save</button></div>
+    <div align="center"><button onclick="window.location.href='Leads_Manage_process?status=Save'">Save</button></div>
 
     <%
-        } else {
-            request.setAttribute("error_message", "No data Recieved...");
-            request.getRequestDispatcher("user_home.jsp").forward(request, response);
-
         }
+
 
     %>
 
