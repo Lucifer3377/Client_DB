@@ -154,7 +154,7 @@
                                         <label for="password">At least 4 characters. Use a mix of upper and lowercase for a strong password.</label>
 
                                         <input type="password" name="cpassword" id="cpassword" value="password" />
-                                        <label for="cpassword">If your passwords arenâ€™t equal, you wonâ€™t be able to continue with signup.</label>
+                                        <label for="cpassword">If your passwords aren't equal, you won't be able to continue with signup.</label>
                                     </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
                                     <input class="submit" type="submit" name="submit_first" id="submit_first" value="" />
                                 </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
@@ -164,50 +164,22 @@
                                 <div id="second_step">
                                     <h1>SIGN UP FOR A <span>NAVIMATE</span> ACCOUNT</h1>
 
-                                    <div class="form">
-                                        <input type="text" name="firstname" id="firstname" value="first name" />
-                                        <label for="firstname">Your First Name. </label>
-                                        <input type="text" name="lastname" id="lastname" value="last name" />
-                                        <label for="lastname">Your Last Name. </label>
+                                    <div class="form">                                        
                                         <input type="text" name="email" id="email" value="email address" />
-                                        <label for="email">Your email address. We send important administration notices to this address. </label>                    
+                                        <label for="email">Your email address. We send important administration notices to this address. </label>  
+                                        
+                                        <input type="text" name="team_name" id="team_name" placeholder="Enter unique Team name" />
+                                        <label for="team_name">The team name should be Unique to your Team.</label>
+                                        
+                                        <input type="text" pattern="[0-9]+" name="mobile" id="mobile" placeholder="XX-XX-XX-XX-XX" />
+                                        <label for="mobile">Please provide a valid Mobile number for further communication.</label>                                        
+                                       
                                     </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
                                     <input class="submit" type="submit" name="submit_second" id="submit_second" value="" />
                                 </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
 
 
-                                <!-- #third_step -->
-                                <div id="third_step">
-                                    <h1>SIGN UP FOR A <span>NAVIMATE</span> ACCOUNT</h1>
-
-                                    <div class="form">
-                                        <select id="age" name="age">
-                                            <option> 0 - 17</option>
-                                            <option>18 - 25</option>
-                                            <option>26 - 40</option>
-                                            <option>40+</option>
-                                        </select>
-                                        <label for="age">Your age range. </label> <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
-
-                                        <select id="gender" name="gender">
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                        </select>
-                                        <label for="gender">Your Gender. </label> <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
-
-                                        <select id="country" name="country">
-                                            <option>United States</option>
-                                            <option>United Kingdom</option>
-                                            <option>Canada</option>
-                                            <option>Serbia</option>
-                                            <option>Italy</option>
-                                        </select>
-                                        <label for="country">Your country. </label> <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
-
-                                    </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
-                                    <input class="submit" type="submit" name="submit_third" id="submit_third" value="" />
-
-                                </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
+                              
 
 
                                 <!-- #fourth_step -->
@@ -220,14 +192,10 @@
                                         <table>
                                             <tr><td>Username</td><td></td></tr>
                                             <tr><td>Password</td><td></td></tr>
-                                            <tr><td>Email</td><td></td></tr>
-                                            <tr><td>Name</td><td></td></tr>
-                                            <tr><td>Age</td><td></td></tr>
-                                            <tr><td>Gender</td><td></td></tr>
-                                            <tr><td>Country</td><td></td></tr>
+                                            <tr><td>Email</td><td></td></tr>                                                                                  
                                         </table>
                                     </div>      <!-- clearfix --><div class="clear"></div><!-- /clearfix -->
-                                    <input class="send submit" type="submit" name="submit_fourth" id="submit_fourth" value="" />            
+                                    <input class="send submit" type="submit" name="submit_third" id="submit_third" value="" />            
                                 </div>
 
                             </form>
